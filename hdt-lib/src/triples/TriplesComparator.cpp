@@ -47,7 +47,7 @@ TriplesComparator::~TriplesComparator()
 {
 }
 
-int TriplesComparator::operator()(const TripleID &a, const TripleID &b)
+bool TriplesComparator::operator()(const TripleID &a, const TripleID &b)
 {
 	//TODO: Revise because STL C++ only allows true if a > b, false otherwise...
 	/*
@@ -142,13 +142,13 @@ int TriplesComparator::operator()(const TripleID &a, const TripleID &b)
 			if ( res == 0) {
 				return false;
 			} else {
-				return res;
+				return (z2 > z1);
 			}
 		} else {
-			return res;
+			return (y2 > y1);
 		}
 	} else {
-		return res;
+		return (x2 > x1);
     }
 
 }

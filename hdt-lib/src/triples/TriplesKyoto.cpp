@@ -89,7 +89,7 @@ TriplesKyoto::~TriplesKyoto()
 
 IteratorTripleID *TriplesKyoto::search(TripleID &pattern)
 {
-#if 0
+#if 1
 	//cout << endl << "DB size: " << db.count() << endl;
 
 	DB::Cursor *cur = db.cursor();
@@ -288,7 +288,7 @@ TripleID *TriplesKyotoIterator::next() {
     } else {
         cerr << "Something went wrong, got wrong size for a TripleID Key: "<< size << endl;
     }
-    //cout << "Return: " << returnTriple << endl;
+    cout << "Return: " << returnTriple << endl;
     return &returnTriple;
 }
 
