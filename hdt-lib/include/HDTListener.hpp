@@ -84,12 +84,12 @@ public:
 	virtual ~StdoutProgressListener() { }
 
     void notifyProgress(float level, const char *section) {
-    	std::cout << "\r " << std::setw( 3 ) << std::setprecision( 5 )<< section << ": " << level << " %                      \r";
+    	std::cout << "\r " << std::setw( 3 ) << std::setprecision( 5 )<< section << ": " << level << " %";
 		std::cout.flush();
 	}
 
     void notifyProgress(float task, float level, const char *section) {
-    	std::cout << "\r " << std::setw( 3 ) << std::setprecision( 5 )<< section << ": " << task << " % / " << level << " %                      \r";
+    	std::cout << "\r " << std::setw( 3 ) << std::setprecision( 5 )<< section << ": " << task << " % / " << level << " %";
                 std::cout.flush();
         }
 
