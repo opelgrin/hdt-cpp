@@ -175,19 +175,13 @@ IteratorTripleString* BasicHDT::search(const char* subject,	const char* predicat
 
 
 ModifiableDictionary* BasicHDT::getLoadDictionary() {
-#ifdef HAVE_KYOTO
-	return new KyotoDictionary(spec);
-#else
 	return new PlainDictionary(spec);
-#endif
+	//return new KyotoDictionary(spec);
 }
 
 ModifiableTriples* BasicHDT::getLoadTriples() {
-#ifdef HAVE_KYOTO
-	return new TriplesKyoto(spec);
-#else
 	return new TriplesList(spec);
-#endif
+	//return new KyotoTriples(spec);
 }
 
 
@@ -293,7 +287,9 @@ void BasicHDT::loadDictionary(IteratorTripleString* triples, ProgressListener* l
 
 void BasicHDT::loadTriples(std::function<void(RDFCallback&)> tripleLoader, ProgressListener* listener) {
 	// Generate Triples
-	ModifiableTriples* triplesList = getLoadTriples();
+	ModifiableTriples* triplesList = new TriplesList(spec);
+	//ModifiableTriples *triplesList = new TriplesKyoto(spec);
+	//ModifiableTriples *triplesList = new TripleListDisk();
 	StopWatch st;
 	IntermediateListener iListener(listener);
 	try {
