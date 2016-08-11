@@ -54,7 +54,7 @@ int32_t TriplesKyoto::compare (const char *akbuf, size_t aksiz, const char *bkbu
         TripleID *b = (TripleID *)bkbuf;
 
         int result = comparator(*a, *b);
-        cout << endl << " compare " << *a << " = " << *b << "    = " << result << endl;
+        //cout << endl << " compare " << *a << " = " << *b << "    = " << result << endl;
         return result;
     }
     throw "TripleKyoto: Error comparing buffers";
@@ -90,7 +90,7 @@ TriplesKyoto::~TriplesKyoto()
 IteratorTripleID *TriplesKyoto::search(TripleID &pattern)
 {
 #if 1
-	cout << endl << "DB size: " << db.count() << endl;
+	//cout << endl << "DB size: " << db.count() << endl;
 
 	DB::Cursor *cur = db.cursor();
 	cur->jump();
@@ -101,17 +101,17 @@ IteratorTripleID *TriplesKyoto::search(TripleID &pattern)
 	while(count<total-1) {
 		size_t fsize;
 		TripleID *ptr = (TripleID*)cur->get_key(&fsize, true);
-		cout << "Triple: " << *ptr << endl;
+		//cout << "Triple: " << *ptr << endl;
 		count++;
 	}
 
-	cout << "Iterated" << endl;
+	//cout << "Iterated" << endl;
 
 	delete cur;
 
 	db.close();
 
-	cout << "Closed" << endl;
+	//cout << "Closed" << endl;
 
 	exit(0);
 #endif
@@ -223,7 +223,7 @@ void TriplesKyoto::insert(TripleID &triple)
 		cerr << endl << "set error: " << db.error().name() << endl;
 	}
 
-    cout << "Inserted " << triple << " Now: " << db.count() << endl;
+    //cout << "Inserted " << triple << " Now: " << db.count() << endl;
 }
 
 void TriplesKyoto::insert(IteratorTripleID *triples)
