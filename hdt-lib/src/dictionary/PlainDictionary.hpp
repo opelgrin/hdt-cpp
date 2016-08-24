@@ -138,6 +138,8 @@ public:
     IteratorUCharString *getObjects();
     IteratorUCharString *getShared();
 
+	void insert(std::string entry, DictionarySection pos);
+
 // ModifiableDictionary
 	unsigned int insert(std::string &str, TripleComponentRole position);
 
@@ -151,8 +153,6 @@ public:
 
 // Private methods
 private:
-	void insert(std::string entry, DictionarySection pos);
-
 	void split(ProgressListener *listener = NULL);
 	void lexicographicSort(ProgressListener *listener = NULL);
 	void idSort();
