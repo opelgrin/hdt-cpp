@@ -392,16 +392,19 @@ void PlainDictionary::insert(string str, DictionarySection pos) {
     hashObject[entry->str] = entry;
     break;
   case NOT_SHARED_SUBJECT:
+    entry->id = subjects.size() + 1;
     subjects.push_back(entry);
     // entry->id = subjects_shared.size()+subjects_not_shared.size();
     hashSubject[entry->str] = entry;
     break;
   case NOT_SHARED_OBJECT:
+    entry->id = objects.size() + 1;
     objects.push_back(entry);
     // entry->id = subjects_shared.size()+objects_not_shared.size();
     hashObject[entry->str] = entry;
     break;
   case NOT_SHARED_PREDICATE:
+    entry->id = predicates.size() + 1;
     predicates.push_back(entry);
     // entry->id = predicates.size();
     hashPredicate[entry->str] = entry;
