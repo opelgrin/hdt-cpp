@@ -315,7 +315,7 @@ unsigned int PlainDictionary::insert(std::string &str,
   // cout << "A: " << foundSubject << " B: " << foundSubject << endl;
 
   if (pos == SUBJECT) {
-    if (!foundSubject) {
+    if (!foundSubject && !foundObject) {
       // Did not exist, create new.
       DictionaryEntry *entry = new DictionaryEntry;
       entry->str = new char[str.length() + 1];
@@ -338,7 +338,7 @@ unsigned int PlainDictionary::insert(std::string &str,
       hashSubject[objectIt->second->str] = objectIt->second;
     }
   } else if (pos == OBJECT) {
-    if (!foundObject) {
+    if (!foundSubject && !foundObject) {
       // Did not exist, create new.
       DictionaryEntry *entry = new DictionaryEntry;
       entry->str = new char[str.length() + 1];
