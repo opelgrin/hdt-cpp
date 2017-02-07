@@ -60,7 +60,7 @@ TripleString *RDFParserNtriples::next() {
 				errorParsing = true;
 				break;
 			}
-			node[pos] = line.substr(0, lastIndex + 1);
+			node[pos] = line.substr(1, lastIndex - 1);
 			pos++;
 		}
 		//Literal
