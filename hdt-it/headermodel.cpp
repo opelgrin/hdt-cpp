@@ -17,7 +17,7 @@ HeaderModel::~HeaderModel()
 int HeaderModel::rowCount(const QModelIndex &parent) const
 {
     if(hdtController->hasHDT()) {
-        return hdtController->getHDT()->getHeader()->getNumberOfElements();
+        return (int)hdtController->getHDT()->getHeader()->getNumberOfElements();
     }
     return 0;
 }
@@ -148,7 +148,7 @@ bool HeaderModel::setData(const QModelIndex &index, const QVariant &value, int r
         HeaderModel *noConstThis = const_cast<HeaderModel *>(this);
         noConstThis->findTriple(index.row());
 
-        string str(value.toString().toAscii());
+        string str(value.toString().toLatin1());
         switch(index.column()) {
         case 0:
             currentTriple->setSubject(str);

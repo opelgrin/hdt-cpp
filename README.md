@@ -1,26 +1,157 @@
-# C++ library for the HDT triple format
-HDT keeps big RDF datasets compressed while maintaining efficient search and browse operations.
+[![Join the chat at https://gitter.im/rdfhdt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rdfhdt)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.580298.svg)](https://doi.org/10.5281/zenodo.580298)
 
-To compile the library run `make` under the directory `hdt-lib`, this will generate the library and tools.
+# C++ implementation of the HDT compression format
 
-The implementation has the following optional dependencies:
-- [Raptor RDF Parser Library 2.x](http://librdf.org/raptor/) (optional) This enables importing RDF data in many serialization formats, e.g., RDF/XML, Turtle, N3, etc. The dependency is activated by default; to deactivate it, comment out the line `RAPTOR_SUPPORT=true` in the `Makefile`. If Raptor or Serd is not used, the library will only be able to load RDF data in N-Triples format.
-- [Serd](http://drobilla.net/software/serd/) (optional) This enables importing RDF data in the Turtle and N-Triples serialization formats specifically. The dependency is activated by default; to deactivate it, comment out the line `SERD_SUPPORT=true` in the `Makefile`. If Raptor or Serd is not used, the library will only be able to load RDF data in N-Triples format.
-- [libz](http://www.zlib.net/) (optional) Enables loading N-Triples files compressed with GZIP (e.g., `file.nt.gz`) and gzipped HDTs (`file.hdt.gz`). The dependency is activated by default; to deactivate it, comment out the line `LIBZ_SUPPORT=true` in the `Makefile`.
-- [Kyoto Cabinet](http://fallabs.com/kyotocabinet/) (optional) Enables generating big RDF datasets on machines without much RAM memory, by creating a temporary Kyoto Cabinet database. The dependency is deactivated by default; to activate it, uncomment the line `KYOTO_SUPPORT=true` in the `Makefile` and edit the library include path (`INCLUDES=`) as needed.
+Header Dictionary Triples (HDT) is a compression format for RDF data
+that can also be queried for Triple Patterns.
 
-After building, these are the typical operations that you will perform:
-Create the HDT representation of your RDF data:
+## Getting Started
 
-    $ tools/rdf2hdt data/test.nt data/test.hdt
+### Prerequisites
 
-Convert an HDT to another RDF serialization format, such as N-Triples:
+In order to compile this library, you need to have the following
+dependencies installed:
 
-    $ tools/hdt2rdf data/test.hdt data/test.hdtexport.nt
+- [GNU Autoconf](https://www.gnu.org/software/autoconf/autoconf.html)
 
-Open a terminal to search triple patterns within an HDT file:
+  - `sudo apt install autoconf` on Debian-based distros (e.g., Ubuntu)
+  - `sudo dnf install autoconf` on Red Hat-based distros (e.g.,
+    Fedora)
+  - `brew install autoconf` on macOS/OSX
 
-    $ tools/hdtSearch data/test.hdt
+- [GNU Libtool](https://www.gnu.org/software/libtool/)
+
+  - `sudo apt install libtool` on Debian-based distros (e.g., Ubuntu)
+  - `sudo dnf install libtool` on Red Hat-based distros (e.g., Fedora)
+  - `brew install libtool` on macOS/OSX
+
+- [GNU zip (gzip)](http://www.zlib.net/) Allows GNU zipped RDF input
+  files to be ingested, and allows GNU zipped HDT files to be loaded.
+
+  - `sudo apt install zlib1g zlib1g-dev` on Debian-based distros (e.g., Ubuntu)
+  - `sudo dnf install gzip` on Red Hat-based distros (e.g., Fedora)
+  - zlib is already included as part of macOS/OSX
+
+- [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
+  A helper tool for compiling applications and libraries.
+
+  - `sudo apt install pkg-config` on Debian-based distros (e.g.,
+    Ubuntu)
+  - `sudo dnf install pkgconf-pkg-config` on Red Hat-based distros
+    (e.g., Fedora)
+  - `brew install pkg-config` on macOS/OSX
+
+- [Serd v0.28+](https://github.com/drobilla/serd) The default parser
+  that is used to process RDF input files.  It supports the N-Quads,
+  N-Triples, TriG, and Turtle serialization formats.
+
+  - `sudo apt install libserd-0-0 libserd-dev` on Debian-based distros
+    (e.g., Ubuntu)
+  - `sudo dnf install serd serd-devel` on Red Hat-based distros (e.g.,
+    Fedora)
+  - `brew install serd` on macOS/OSX
+
+  Sometimes the version of Serd that is distributed by package managers
+  is too old.  In that case, Serd can also be built manually: see
+  https://github.com/drobilla/serd for the installation instructions.
+
+### Installation
+
+To compile and install, run the following commands under the directory
+`hdt-cpp`.  This will also compile and install some handy tools.
+
+```
+./autogen.sh
+./configure
+make -j2
+sudo make install
+```
+
+### Installation issues
+
+Sometimes, the above instructions do not result in a working HDT
+installation.  This section enumerates common issues and their
+workaround.
+
+#### Compilation issues using Kyoto Cabinet
+
+The support for Kyoto Cabinet was never finished and is currently suspended. It is for the time being not possible to compile HDT with KyotoCabinet.
+
+Common error:
+
+    In file included from src/dictionary/KyotoDictionary.cpp:38:0:
+    src/dictionary/KyotoDictionary.hpp:108:18: error: conflicting return type specified for 'virtual unsigned int hdt::KyotoDictionary::getMapping()'
+     unsigned int getMapping();
+                  ^
+
+#### Package requirements (serd-0 >= 0.28.0) were not met
+When getting
+
+    Package requirements (serd-0 >= 0.28.0) were not met: Requested 'serd-0 >= 0.28.0' but version of Serd is 0.X
+
+Serd is not 0.28+, probably because of the package manager. Built it manually at https://github.com/drobilla/serd.
+
+#### `./configure` cannot find Serd
+
+While running `./configure` you get a message similar to the
+following:
+
+```
+Package 'serd-0', required by 'virtual:world', not found
+```
+
+This means that `./configure` cannot find the location of the
+`serd-0.pc` file on your computer.  You have to find this location
+yourself, e.g., in the following way:
+
+```sh
+find /usr/ -name serd-0.pc
+```
+
+Once you have found the directory containing the `serd-0.pc` file, you
+have to inform the `./configure` script about this location by setting
+the following environment variable (where directory
+`/usr/local/lib/pkgconfig/` is adapted to your situation):
+
+```sh
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
+```
+
+## Using HDT
+
+After compiling and installing, you can use the handy tools that are
+located in `hdt-cpp/libhdt/tools`.  We show some common tasks that can
+be performed with these tools.
+
+### RDF-2-HDT: Creating an HDT
+
+HDT files can only be created for standards-compliant RDF input files.
+If your input file is not standards-compliant RDF, it is not possible
+to create an HDT files out of it.
+
+```
+$ ./rdf2hdt data.nt data.hdt
+```
+
+### HDT-2-RDF: Exporting an HDT
+
+You can export an HDT file to an RDF file in one of the supported
+serialization formats (currently: N-Quads, N-Triples, TriG, and
+Turtle).  The default serialization format for exporting is N-Triples.
+
+```
+$ ./hdt2rdf data.hdt data.nt
+```
+
+### Querying for Triple Patterns
+
+You can issue Triple Pattern (TP) queries in the terminal by
+specifying a subject, predicate, and/or object term.  The questions
+mark (`?`) denotes an uninstantiated term.  For example, you can
+retrieve _all_ the triples by querying for the TP `? ? ?`:
+
+    $ ./hdtSearch data.hdt
     >> ? ? ?
     http://example.org/uri3 http://example.org/predicate3 http://example.org/uri4
     http://example.org/uri3 http://example.org/predicate3 http://example.org/uri5
@@ -33,18 +164,43 @@ Open a terminal to search triple patterns within an HDT file:
     http://example.org/uri1 http://example.org/predicate2 http://example.org/uriA3
     http://example.org/uri2 http://example.org/predicate1 "literal1"
     9 results shown.
- 
+
     >> http://example.org/uri3 ? ?
     http://example.org/uri3 http://example.org/predicate3 http://example.org/uri4
     http://example.org/uri3 http://example.org/predicate3 http://example.org/uri5
     2 results shown.
- 
+
     >> exit
 
-Extract the Header of an HDT file:
+### Exporting the header
 
-    $ tools/hdtInfo data/test.hdt > header.nt
+The header component of an HDT contains metadata describing the data
+contained in the HDT, as well as the creation metadata about the HDT
+itself.  The contents of the header can be exported to an N-Triples
+file:
 
-Replace the Header of an HDT file with a new one. For example, by editing the existing one as extracted using `hdtInfo`:
+```
+$ ./hdtInfo data.hdt > header.nt
+```
 
-    $ tools/replaceHeader data/test.hdt data/testOutput.hdt newHeader.nt
+### Replacing the Header
+
+It can be useful to update the header information of an HDT.  This can
+be done by generating a new HDT file (`new.hdt`) out of an existing
+HDT file (`old.hdt`) and an N-Triples file (`new-header.nt`) that
+contains the new header information:
+
+```
+$ ./replaceHeader old.hdt new.hdt new-header.nt
+```
+
+## Contributing
+
+Contributions are welcome!  Please base your contributions and pull
+requests (PRs) on the `develop` branch, and not on the `master`
+branch.
+
+## License
+
+`hdt-cpp` is free software licensed as GNU Lesser General Public
+License (LGPL). See `libhdt/COPYRIGHT`.
