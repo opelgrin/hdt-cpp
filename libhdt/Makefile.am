@@ -24,7 +24,6 @@ lib_LTLIBRARIES = libhdt.la
 libhdt_la_SOURCES = \
 src/bitsequence/BitSequence375.cpp \
 src/dictionary/FourSectionDictionary.cpp \
-src/dictionary/KyotoDictionary.cpp \
 src/dictionary/LiteralDictionary.cpp \
 src/dictionary/PlainDictionary.cpp \
 src/hdt/BasicHDT.cpp \
@@ -73,7 +72,6 @@ src/triples/TripleIterators.cpp \
 src/triples/TripleListDisk.cpp \
 src/triples/TripleOrderConvert.cpp \
 src/triples/TriplesComparator.cpp \
-src/triples/TriplesKyoto.cpp \
 src/triples/TriplesList.cpp \
 src/util/bitutil.cpp \
 src/util/crc16.cpp \
@@ -112,7 +110,6 @@ src/util/mygetopt.h\
 src/util/propertyutil.h\
 third/gzstream.h\
 src/dictionary/FourSectionDictionary.hpp\
-src/dictionary/KyotoDictionary.hpp\
 src/dictionary/LiteralDictionary.hpp\
 src/dictionary/PlainDictionary.hpp\
 src/hdt/BasicHDT.hpp\
@@ -149,7 +146,6 @@ src/triples/TripleIterators.hpp\
 src/triples/TripleListDisk.hpp\
 src/triples/TripleOrderConvert.hpp\
 src/triples/TriplesComparator.hpp\
-src/triples/TriplesKyoto.hpp\
 src/triples/TriplesList.hpp\
 src/util/fdstream.hpp\
 src/util/fileUtil.hpp\

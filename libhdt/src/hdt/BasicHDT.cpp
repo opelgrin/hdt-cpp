@@ -43,7 +43,6 @@
 #include "BasicHDT.hpp"
 #include "../header/PlainHeader.hpp"
 #include "../dictionary/PlainDictionary.hpp"
-#include "../dictionary/KyotoDictionary.hpp"
 #include "../dictionary/FourSectionDictionary.hpp"
 
 #ifdef HAVE_CDS
@@ -51,7 +50,6 @@
 #endif
 
 #include "../triples/TriplesList.hpp"
-#include "../triples/TriplesKyoto.hpp"
 
 #ifndef WIN32
 #include "../triples/TripleListDisk.hpp"
