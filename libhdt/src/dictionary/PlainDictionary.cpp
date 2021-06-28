@@ -70,7 +70,7 @@ PlainDictionary::~PlainDictionary() {
     size_t i;
 
 	for(i=0;i<shared.size();i++) {
-        	delete [] shared[i]->str;
+        delete [] shared[i]->str;
 		delete shared[i];
 	}
 
@@ -308,43 +308,46 @@ size_t PlainDictionary::insert(const std::string & str, TripleComponentRole pos)
 
 	bool foundSubject = subjectIt!=hashSubject.end();
 	bool foundObject = objectIt!=hashObject.end();
-	//cout << "A: " << foundSubject << " B: " << foundSubject << endl;
 
 	if(pos==SUBJECT) {
 		if( !foundSubject && !foundObject) {
 			// Did not exist, create new.
 			DictionaryEntry *entry = new DictionaryEntry;
-            		entry->str = new char [str.length()+1];
+            entry->str = new char [str.length()+1];
 			strcpy(entry->str, str.c_str());
+			entry->id = subjects.size() + 1;
 			sizeStrings += str.length();
 
-			//cout << " Add new subject: " << str << endl;
 			hashSubject[entry->str] = entry;
+			subjects.push_back(entry);
+      		return entry->id;
 		} else if(foundSubject) {
 			// Already exists in subjects.
-			//cout << "   existing subject: " << str << endl;
+			return subjectIt->second->id;
 		} else if(foundObject) {
 			// Already exists in objects.
-			//cout << "   existing subject as object: " << str << endl;
 			hashSubject[objectIt->second->str] = objectIt->second;
+			return objectIt->second->id;
 		}
 	} else if(pos==OBJECT) {
 		if(!foundSubject && !foundObject) {
 			// Did not exist, create new.
 			DictionaryEntry *entry = new DictionaryEntry;
-            		entry->str = new char [str.length()+1];
+            entry->str = new char [str.length()+1];
 			strcpy(entry->str, str.c_str());
+			entry->id = objects.size() + 1;
 			sizeStrings += str.length();
 
-			//cout << " Add new object: " << str << endl;
 			hashObject[entry->str] = entry;
+			objects.push_back(entry);
+      		return entry->id;
 		} else if(foundObject) {
 			// Already exists in objects.
-			//cout << "     existing object: " << str << endl;
+			return objectIt->second->id;
 		} else if(foundSubject) {
 			// Already exists in subjects.
-			//cout << "     existing object as subject: " << str << endl;
 			hashObject[subjectIt->second->str] = subjectIt->second;
+			return subjectIt->second->id;
 		}
 	}
 
@@ -373,24 +376,24 @@ void PlainDictionary::insert(string str, DictionarySection pos) {
 	case SHARED_SUBJECT:
 	case SHARED_OBJECT:
 		shared.push_back(entry);
-		//entry->id = subjects_shared.size();
 		hashSubject[entry->str] = entry;
 		hashObject[entry->str] = entry;
+		entry->id = shared.size();
 		break;
 	case NOT_SHARED_SUBJECT:
 		subjects.push_back(entry);
-		//entry->id = subjects_shared.size()+subjects_not_shared.size();
 		hashSubject[entry->str] = entry;
+		entry->id = subjects.size();
 		break;
 	case NOT_SHARED_OBJECT:
 		objects.push_back(entry);
-		//entry->id = subjects_shared.size()+objects_not_shared.size();
 		hashObject[entry->str] = entry;
+		entry->id = objects.size();
 		break;
 	case NOT_SHARED_PREDICATE:
 		predicates.push_back(entry);
-		//entry->id = predicates.size();
 		hashPredicate[entry->str] = entry;
+		entry->id = predicates.size();
 		break;
 	}
 }
