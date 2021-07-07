@@ -945,10 +945,10 @@ bool ObjectIndexIterator::canGoTo()
 
 void ObjectIndexIterator::goTo(size_t pos)
 {
-    if(pos>maxIndex) {
+    if(minIndex+pos>maxIndex) {
     	throw std::runtime_error(string("Given index: ") + NumberToString(pos) + ". Cannot go beyond last element index: " + NumberToString(maxIndex));
     }
-    posIndex = pos;
+    posIndex = minIndex+pos;
 }
 
 void ObjectIndexIterator::skip(size_t pos)
