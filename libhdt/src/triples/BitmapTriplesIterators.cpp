@@ -256,6 +256,9 @@ template <typename T>
   }
 
 void BitmapTriplesSearchIterator::goTo(size_t pos) {
+    if(!pattern.isEmpty()) {
+        throw std::runtime_error("Cannot goTo on this pattern.");
+    }
     if ((pos) >= maxZ) {
     	throw std::runtime_error(string("Given index is ") + NumberToString(pos) + ". Cannot go beyond last element index: " + NumberToString(maxZ));
 	}
