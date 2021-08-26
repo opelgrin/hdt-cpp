@@ -72,6 +72,7 @@ public:
 	virtual void reset()=0;
 	virtual uint64_t getPos()=0;
 	virtual uint64_t getSize()=0;
+    void goToStart();
 };
 
 class ParseException: public exception {

@@ -12,6 +12,10 @@
 
 namespace hdt {
 
+void RDFParserPull::goToStart() {
+    this->reset();
+}
+
 RDFParserCallback *RDFParserCallback::getParserCallback(RDFNotation notation) {
 #ifdef HAVE_SERD
     if(notation==NQUAD || // Deprecated: use `NQUADS' instead.
