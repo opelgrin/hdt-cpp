@@ -25,7 +25,7 @@ RDFParserNtriples::~RDFParserNtriples() {
 bool RDFParserNtriples::hasNext() {
 	if(input->good()) {
 		getline(*input, line);
-		return line!="";
+		return !input->eof();
 	} else {
 		return false;
 	}
@@ -42,6 +42,13 @@ TripleString *RDFParserNtriples::next() {
 	vector<string> node(3);
 
 	while (true) {
+		// skip empty lines
+		if (line.empty()) {
+            if(!hasNext()) {
+                break;
+            }
+	    }
+
 		line = line.substr(firstIndex);
 
 		if (line == "." || line == "\n" || line == "" || line.at(0) == '#')
