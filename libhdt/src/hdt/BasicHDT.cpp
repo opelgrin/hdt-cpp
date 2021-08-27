@@ -212,11 +212,8 @@ void TriplesLoader::processTriple(const hdt::TripleString& triple, unsigned long
 	if (ti.isValid()) {
 		triples->insert(ti);
 	} else {
-		stringstream msg;
-		msg << "ERROR: Could not convert triple to IDS! " << endl << triple << endl << ti;
-		throw ParseException(msg.str());
+		cerr << endl << "ERROR: Could not convert triple to IDS! " << endl << triple << endl << ti << endl;
 	}
-	//cerr << "TripleID: " << ti << endl;
 	char str[100];
 	if ((listener != NULL) && (count % 100000) == 0) {
 		sprintf(str, "Generating Triples: %lld K triples processed.", count / 1000);
