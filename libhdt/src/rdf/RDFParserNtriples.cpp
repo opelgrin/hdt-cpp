@@ -55,7 +55,7 @@ TripleString *RDFParserNtriples::next() {
 			break;
 
 		//obvious space
-		if (line.at(0) == ' ') {
+		if (line.at(0) == ' ' || line.at(0) == '\t') {
 			//do nothing
 			lastIndex = 0;
 		}
@@ -117,6 +117,9 @@ TripleString *RDFParserNtriples::next() {
 		//blank, a variable, a relative predicate
 		else if (line.at(0) == '_' || (line.find(":") != string::npos)) {
 			lastIndex = line.find(" ");
+			if (lastIndex == string::npos)
+			    lastIndex = line.find("\t");
+				
 			//check size of pos
 			if (pos > 2) {
 				errorParsing = true;
@@ -133,6 +136,8 @@ TripleString *RDFParserNtriples::next() {
 		else {
 			// else it is a parsing error
 			lastIndex = line.find(" ");
+			if (lastIndex == string::npos)
+			    lastIndex = line.find("\t");
 
 			if(lastIndex!=string::npos) {
 				for (size_t j = 0; j < lastIndex; j++) {
