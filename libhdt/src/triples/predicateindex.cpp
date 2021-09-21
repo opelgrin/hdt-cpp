@@ -109,7 +109,7 @@ void PredicateIndexArray::generate(ProgressListener *listener) {
     }
     if(triples->arrayY->getNumberOfElements())
         bitmap->set(triples->arrayY->getNumberOfElements()-1, true);
-    cerr << "Predicate Bitmap in " << st << endl;
+    cout << "Predicate Bitmap in " << st << endl;
     st.reset();
 
     delete predCount;
@@ -137,7 +137,7 @@ void PredicateIndexArray::generate(ProgressListener *listener) {
 
     delete insertArray;
 
-    cerr << "Count predicates in " << st << endl;
+    cout << "Count predicates in " << st << endl;
 }
 
 }

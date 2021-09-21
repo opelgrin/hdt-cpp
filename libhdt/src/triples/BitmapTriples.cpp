@@ -251,7 +251,7 @@ void BitmapTriples::generateIndex(ProgressListener *listener) {
     generateIndexMemory(&iListener);
    	//generateIndexMemoryFast(listener);
 
-	cerr << "Index generated in "<< global << endl;
+	cout << "Index generated in "<< global << endl;
 }
 
 void BitmapTriples::generateIndexMemory(ProgressListener *listener) {
@@ -278,7 +278,7 @@ void BitmapTriples::generateIndexMemory(ProgressListener *listener) {
 
 		NOTIFYCOND3(&iListener, "Counting appearances of objects", i, arrayZ->getNumberOfElements(), 1000000);
 	}
-	cerr << "Count Objects in " << st << " Max was: " << maxCount << endl;
+	cout << "Count Objects in " << st << " Max was: " << maxCount << endl;
 	st.reset();
 
 #if 0
@@ -300,10 +300,10 @@ void BitmapTriples::generateIndexMemory(ProgressListener *listener) {
 	  bitmapIndex->set(arrayZ->getNumberOfElements()-1, true);
 	delete objectCount;
 	objectCount=NULL;
-	cerr << "Bitmap in " << st << endl;
+	cout << "Bitmap in " << st << endl;
 	st.reset();
 
-    cerr << "Bitmap bits: " << bitmapIndex->getNumBits() << " Ones: " << bitmapIndex->countOnes() << endl;
+    cout << "Bitmap bits: " << bitmapIndex->getNumBits() << " Ones: " << bitmapIndex->countOnes() << endl;
 #if 0
     for(size_t i=0;i<bitmapIndex->getNumBits();i++) {
 		if(bitmapIndex->access(i)){
@@ -360,7 +360,7 @@ void BitmapTriples::generateIndexMemory(ProgressListener *listener) {
 	}
 	delete objectInsertedCount;
 	objectInsertedCount=NULL;
-	cerr << "Object references in " << st << endl;
+	cout << "Object references in " << st << endl;
 	st.reset();
 
 	predCount->reduceBits();
@@ -441,7 +441,7 @@ void BitmapTriples::generateIndexMemory(ProgressListener *listener) {
 		NOTIFYCOND3(&iListener, "Sorting object sublists", first, arrayZ->getNumberOfElements(), 10000);
 	} while(object<=bitmapIndex->countOnes());
 
-	cerr << "Sort lists in " << st << endl;
+	cout << "Sort lists in " << st << endl;
 	st.reset();
 
 	// Save Object Index
