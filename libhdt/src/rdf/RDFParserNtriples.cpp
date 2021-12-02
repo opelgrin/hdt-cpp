@@ -19,7 +19,7 @@ RDFParserNtriples::RDFParserNtriples(const char *fileName, RDFNotation notation)
 }
 
 RDFParserNtriples::~RDFParserNtriples() {
-
+	delete input;
 }
 
 bool RDFParserNtriples::hasNext() {
