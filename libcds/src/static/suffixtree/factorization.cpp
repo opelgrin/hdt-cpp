@@ -23,25 +23,6 @@
 
 const unsigned int TABLEBASE[7] = {0,16,272,4368,69904,1118480,17895696};
 
-const unsigned short TABLESUM[256] = {
-	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-	2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-	3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-	4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-	5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-	6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-	7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-	8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-	9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-	10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-	11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
-	12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-	13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-	14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-	15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
-};
-
 namespace cds_static
 {
 
@@ -58,7 +39,7 @@ namespace cds_static
 		uint levelSizeAux[7]={0,0,0,0,0,0,0};
 		uint cont[7]={0,0,0,0,0,0,0};
 		listLength = l_Length;
-		register uint i;
+		uint i;
 		int j, k;
 		uint value, newvalue;
 		uint bits_BS_len = 0;
@@ -139,7 +120,7 @@ namespace cds_static
 
 	uint factorization::access(uint param) {
 		uint mult=0;
-		register uint j;
+		uint j;
 		uint partialSum=0;
 		uint ini=param-1;
 		uint * bsData = ((BitSequenceRG *)bS)->data;
@@ -173,7 +154,7 @@ namespace cds_static
 
 	uint factorization::access_seq(uint param, size_t *next_pos, bool dir) {
 		uint mult=0;
-		register uint j;
+	        uint j;
 		uint partialSum=0;
 		uint ini=param-1;
 		uint * bsData = ((BitSequenceRG *)bS)->data;
